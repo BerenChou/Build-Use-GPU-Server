@@ -8,4 +8,24 @@
 4.安装ssh: ```sudo apt install ssh```, 安装xrdp```sudo apt install xrdp```, 安装完成xrdp, 服务将会自动启动，可以输入下面的命令验证它```sudo systemctl status xrdp```,
 默认情况下, xrdp使用/etc/ssl/private/ssl-cert-snakeoil.key, 它仅仅对ssl-cert用户组成语可读, 所以需要运行下面的命令, 将xrdp用户添加到这个用户组: ```sudo adduser xrdp ssl-cert```, ```sudo systemctl restart xrdp```.
 
-5.
+5.重启电脑, 一定要重启!
+
+6.打开Ubuntu系统中的软件和更新, 找到标签栏中的附加驱动, 点进去以后, 选择第一个驱动, 有"使用NVIDIA driver metapackage来自nvidia-driver-xxx(专有, tested)"字样的, 再点击应用更改, 即可开始安装. 安装完毕后, 重启电脑. 重启完毕后再输入```sudo apt update```和```sudo apt upgrade```更新一下软件, 然后再次重启.
+
+# 安装Docker和Nvidia Container Toolkit
+1.安全按照[Docker官方文档](https://docs.docker.com/engine/install/ubuntu/#installation-methods)中的Install using the repository方法来安装.
+2.完全按照[Nvidai Container Toolkit官方文档](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian)中的方法来安装, 唯一需要注意的点是, 这句话:
+![image](https://user-images.githubusercontent.com/46392714/143682609-6e27caae-2a65-4a46-914c-9dd60b2a7be7.png)
+是这样执行的: 首先```sudo vim /etc/docker/daemon.json```, 然后加上一句话```"default-runtime": "nvidia",```, 如下图所示, 然后再按上图将Docker守护程序重启, 再按照文档执行后续步骤.
+******
+
+# 禁止Linux内核更新与更换Docker路径
+1.先```uname -a```查看系统内核, 以笔者电脑举例, 系统内核为5.11.0-41-generic, 再```sudo dpkg --get-selections | grep linux```, 能看到linux-headers-5.11.0-41-generic和linux-image-5.11.0-41-generic和linux-modules-5.11.0-41-generic和linux-modules-extra-5.11.0-41-generic, 使用```sudo apt-mark hold```将上述4个包设定为不更新:
+```
+sudo apt-mark hold linux-headers-5.11.0-41-generic
+sudo apt-mark hold linux-image-5.11.0-41-generic
+sudo apt-mark hold linux-modules-5.11.0-41-generic
+sudo apt-mark hold linux-modules-extra-5.11.0-41-generic
+```
+
+2.我们将固态硬盘挂载到了/目录, 将机械硬盘挂载到了/home目录, 而docker默认安装目录是在/var/lib/docker中, 随着Docker的使用, 固态硬盘有可能会空间不足, 所以这里笔者将Docker目录移动到了/home中的用户文件夹, 具体移动方法, 请参考[IBM Relocating the Docker Root directory](https://www.ibm.com/docs/en/z-logdata-analytics/5.1.0?topic=compose-relocating-docker-root-directory).
