@@ -48,4 +48,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 
 ENTRYPOINT service ssh start && bash
 ```
-这个Dockerfile文件基于NVIDIA官方的
+这个Dockerfile文件基于NVIDIA官方的nvidia/cuda:11.3.0-cudnn8-devel-ubuntu20.04镜像, 加入了ssh功能, 使得用户端能通过ssh进入宿主机中的容器.
+
+然后```sudo docker build -t nvidia/cuda:ssh-cuda11.3.0-cudnn8-ubuntu20.04 .```, 即可成功构建镜像, 并返回其镜像ID.
+
+到此为止, 基于Ubuntu + Docker的远程GPU服务器构建完毕, 管理员请转向本文档项目的 管理员_创建容器.md 文件.
