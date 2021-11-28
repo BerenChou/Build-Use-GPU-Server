@@ -11,6 +11,10 @@ TO DO
 # 搭建过程
 ## 下载Ubuntu系统与制作启动盘
 1.在[Ubuntu官网](https://releases.ubuntu.com/20.04/)下载Ubuntu 20.04.3 LTS(Focal Fossa) Desktop image
+
+## 安装Ubuntu
+![build_gpu_server_1.jpg](build_gpu_server_1.jpg)
+
 # 对Ubuntu系统的调整
 1.设置一下root账户密码: ```sudo passwd root```.
 
