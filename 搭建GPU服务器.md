@@ -1,4 +1,5 @@
 TO DO
+
 # 需求
 1.GPU计算资源能够多用户共享, 同时每个用户的开发环境能够相互隔离, 且用户的任何操作都只限于自己被分配到的环境的内部, 无法干扰宿主机.
 2.可支持用户对开发环境的不同需求, 如指定CUDA版本或者无CUDA. 且管理员可根据用户需求, 使用几行命令迅速构建开发环境并进行分发.
@@ -7,13 +8,6 @@ TO DO
 # 解决方案
 1.宿主机安装Ubuntu与Docker, 管理员使用Docker创建一个或多个镜像(类比面向对象编程的class), 每个镜像可以有不同的开发环境, 比如A镜像CUDA版本为11.4, B镜像CUDA版本为10.1.
 基于镜像, 可以创建容器(类比面向对象编程的object, object是从class中派生得来), 每个容器对应有一个IP地址与端口, 将其分发给用户, 用户即可使用Xshell等软件, 使用ssh连接到容器中, 使用GPU资源.
-
-# 搭建过程
-## 下载Ubuntu系统与制作启动盘
-1.在[Ubuntu官网](https://releases.ubuntu.com/20.04/)下载Ubuntu 20.04.3 LTS(Focal Fossa) Desktop image
-
-## 安装Ubuntu
-![build_gpu_server_1.jpg](build_gpu_server_1.jpg)
 
 # 对Ubuntu系统的调整
 1.设置一下root账户密码: ```sudo passwd root```.
