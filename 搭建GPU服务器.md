@@ -29,3 +29,23 @@ sudo apt-mark hold linux-modules-extra-5.11.0-41-generic
 ```
 
 2.我们将固态硬盘挂载到了/目录, 将机械硬盘挂载到了/home目录, 而docker默认安装目录是在/var/lib/docker中, 随着Docker的使用, 固态硬盘有可能会空间不足, 所以这里笔者将Docker目录移动到了/home中的用户文件夹, 具体移动方法, 请参考[IBM Relocating the Docker Root directory](https://www.ibm.com/docs/en/z-logdata-analytics/5.1.0?topic=compose-relocating-docker-root-directory).
+
+# 使用Dockerfile定制镜像
+```mkdir DockerfileContext```, ```cd DockerfileContext```, ```touch Dockerfile```, ```vim Dockerfile```, 写入下面的内容:
+```
+FROM nvidia/cuda:11.3.0-cudnn8-devel-ubuntu20.04
+MAINTAINER zhouyunlai<weixin:leopraden>
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && echo "root:root" | chpasswd \
+    && apt-get update && apt-get install -y \
+        vim \
+        openssh-server \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+
+ENTRYPOINT service ssh start && bash
+```
+这个Dockerfile文件基于NVIDIA官方的
