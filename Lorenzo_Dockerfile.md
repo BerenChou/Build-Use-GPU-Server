@@ -1,7 +1,7 @@
 ## Dockerfile
 ```
 FROM nvidia/cuda:11.3.0-cudnn8-devel-ubuntu20.04
-MAINTAINER zhouyunlai<weixin:leopraden>
+MAINTAINER BerenChow<weixin:*******>
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone \
